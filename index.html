@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Electron App</title>
+  <style>
+    /* Estilos para el webview */
+    #webview {
+      width: 100%;
+      height: 80vh; /* Altura del webview ajustada */
+      border: none; /* Sin bordes */
+    }
+  </style>
+</head>
+<body>
+  <!-- Div para mostrar la información del sistema -->
+  <div id="system-info">Cargando información del sistema...</div>
+
+  <!-- Webview para emular una página web -->
+  <webview id="webview" src="https://www.google.com"></webview>
+
+  <!-- Scripts personalizados -->
+  <script>
+    //información del sistema al cargar la página
+    window.electron.getSystemInfo().then(systemInfo => {
+      const systemInfoElement = document.getElementById('system-info');
+      // Mostrar la información del sistema en el div
+      systemInfoElement.innerHTML = `
+        <p><strong>Nombre del equipo:</strong> ${systemInfo.hostname}</p>
+        <p><strong>Plataforma:</strong> ${systemInfo.platform}</p>
+        <p><strong>Versión del sistema:</strong> ${systemInfo.release}</p>
+        <p><strong>Versión de Node.js:</strong> ${systemInfo.nodeVersion}</p>
+      `;
+    });
+
+    //eventos para actualizar la información del sistema
+    window.electron.onSystemInfo((systemInfo) => {
+      const systemInfoElement = document.getElementById('system-info');
+      // Mostrar la información del sistema en el div
+      systemInfoElement.innerHTML = `
+        <p><strong>Nombre del equipo:</strong> ${systemInfo.hostname}</p>
+        <p><strong>Plataforma:</strong> ${systemInfo.platform}</p>
+        <p><strong>Versión del sistema:</strong> ${systemInfo.release}</p>
+        <p><strong>Versión de Node.js:</strong> ${systemInfo.nodeVersion}</p>
+      `;
+    });
+  </script>
+</body>
+</html>
